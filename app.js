@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config({path : './config.env'});
+
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -10,9 +13,14 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI = 'mongodb+srv://shaun:test1234@cluster0.del96.mongodb.net/node-auth';
+const dbURI = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
-  .then((result) => app.listen(3000))
+  .then((result) => {
+    console.log('Successfully connected to database');
+    app.listen(3000, () => {
+            console.log('Server running on port 3000');
+        })
+    })
   .catch((err) => console.log(err));
 
 // routes
