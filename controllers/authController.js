@@ -1,12 +1,20 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
+
 const handleError = (err) => {
-    console.log(err.code);
+    console.log(err.message);
     let errors = {
         email : '',
         password : ''
     };
+
+    if(err.message === 'Incorrect email') {
+        errors.email = "Email is not registered";
+    }
+    if(err.message === 'Incorrect password') {
+        errors.password = "Incorrect password";
+    }
     if(err.code === 11000) {
         errors.email = 'Entered email is already registered';
         return errors;
@@ -34,15 +42,12 @@ exports.signup_get = (req,res) => {
 exports.signup_post = async (req,res) => {
     const {email,password} = req.body;
     try {
-        const user = await User.create({
-            email,
-            password
-        });
+        const user = await User.create({ email, password });
         const token = createToken(user._id);
         res.cookie('jwt', token, {httpOnly : true, maxAge: maxAge*1000});
         res.status(201).json({
             status: 'success',
-            user: user_.id
+            user: user._id
         });
     }
     catch(err) {
@@ -59,6 +64,19 @@ exports.login_get = (req,res) => {
 }
 
 exports.login_post = async (req,res) => {
-    res.send('New login');
+    const { email,password } = req.body;
+    try {
+        const user = await User.login(email, password);
+        const token = createToken(user._id);
+        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge *1000});
+        res.status(200).json({
+            user: user._id
+        })
+    }
+    catch(err) {
+        const errors = handleError(err);
+        res.status(400).json({
+            errors
+        });
+    }
 }
-
