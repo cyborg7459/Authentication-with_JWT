@@ -3,13 +3,14 @@ dotenv.config({path : './config.env'});
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(express.json());
-
+app.use(cookieParser());
 
 const dbURI = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
