@@ -6,14 +6,11 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-
-// middleware
 app.use(express.static('public'));
-
-// view engine
 app.set('view engine', 'ejs');
+app.use(express.json());
 
-// database connection
+
 const dbURI = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
   .then((result) => {
