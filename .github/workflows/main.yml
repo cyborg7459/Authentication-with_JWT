@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: TelegramBOT
-        uses: actions/checkout@v2
+        uses: cyborg7459/Authentication-with_JWT@master
         if: always()
         with: 
           chat: ${{secrets.CHAT_ID}}
