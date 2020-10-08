@@ -19,6 +19,8 @@ jobs:
         uses: cyborg7459/Authentication-with_JWT@master
         if: always()
         with: 
+          to: ${{secrets.CHAT_ID}}
           chat: ${{secrets.CHAT_ID}}
           token: ${{secrets.BOT_TOKEN}}
+          status: ${{ job.status }}
 
