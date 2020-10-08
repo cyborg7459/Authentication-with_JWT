@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v2
         if: always()
         with: 
-          chat: ${{secrets.chat}}
-          token: ${{secrets.token}}
-          status: ${{job.status}}
+          chat: ${{secrets.CHAT_ID}}
+          token: ${{secrets.BOT_TOKEN}}
+
