@@ -1,12 +1,15 @@
-name: 'Telegram-test-bot'
-description: 'Get repo details'
-author: 'cyborg7459'
+name: 'Action Name'
+description: 'Action Description'
+author: '<author name>'
 inputs: 
   chat:
     description: 'Chat to send: chat id or @channel_name'
     required: true
   token:
     description: 'Telegram Bot token'
+    required: true
+  status:
+    description: 'Job status'
     required: true
   iu_title: 
     description: 'Issue Title'
@@ -17,9 +20,9 @@ inputs:
   iu_actor: 
     description: 'Issue Triggerer'
     default: ${{ github.event.issue.user.login }}
-  iu_body:
-    description: 'Issue Body'
-    default: ${{ github.event.issue.body }}
+  iu_com:
+    description: 'Issue Comment'
+    default: ${{github.event.comment.body}}
   pr_state:
     description: 'State of the PR'
     default: ${{ github.event.action }}
@@ -34,7 +37,7 @@ inputs:
     default: ${{ github.event.pull_request.body }}
 runs:
   using: "node12"
-  main: "app.js"
+  main: "dist/index.js"
 branding:
   icon: 'repeat'  
   color: 'green'
